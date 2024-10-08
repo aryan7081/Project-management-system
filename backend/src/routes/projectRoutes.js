@@ -10,8 +10,8 @@ const router = express.Router();
 
 router.post('/create', authMiddleware, createProject);
 router.post('/update/:id', authMiddleware, updateproject);
-router.post('/delete/:id', authMiddleware, deleteProject);
-router.post('/:id', authMiddleware, getproject);
-router.post('/', authMiddleware, getAllprojects);
+router.delete('/delete/:id', authMiddleware, deleteProject);
+router.get('/:id', authMiddleware, getproject);
+router.get('/', authMiddleware, getAllprojects);
 
 module.exports = router;
