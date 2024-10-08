@@ -88,6 +88,7 @@ exports.getAllTasks = async (req, res) => {
 exports.getTasksByProject = async (req, res) => {
     const { projectId } = req.params;
     try {
+        
         const tasks = await prisma.task.findMany({
         where: {
             projectId: parseInt(projectId) 

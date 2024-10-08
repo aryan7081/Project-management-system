@@ -1,4 +1,6 @@
 const prisma = require('../models/prismaClient');
+const { use } = require('../routes/projectRoutes');
+const jwt = require('jsonwebtoken');
 
 exports.createProject = async (req, res) => {
   const { name, description } = req.body;
@@ -25,11 +27,15 @@ exports.deleteProject = async (req, res) => {
     try{
         const existingproject = await prisma.project.findUnique({where:{id:parseInt(id)}})
         if (!existingproject) return res.status(400).send({error: "project does not exist"})
+        await prisma.task.deleteMany({
+          where: { projectId: parseInt(id) }
+      });
         await prisma.project.delete({
             where:{id:parseInt(id)}
     })
     res.status(200).send({message: `project with id ${id} deleted successfully`})
 } catch (error){
+    console.log(error)
     res.status(500).send({error: "Something went wrong"})
 }
 }
@@ -73,7 +79,17 @@ exports.getproject = async (req, res) => {
 
 exports.getAllprojects = async (req, res) => {
     try {
-      const projects = await prisma.project.findMany();
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) {
+          return res.status(401).send({ message: 'Unauthorized' });
+        }
+      console.log("ye dekho token",token)
+      const decoded = jwt.verify(token, process.env.JWT_SECRET); 
+      const userId = decoded.userId;
+
+      const projects = await prisma.project.findMany({
+        where:{ownerId:userId}
+      });
   
       res.status(200).send({ projects });
     } catch (error) {
