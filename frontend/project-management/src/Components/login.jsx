@@ -1,21 +1,19 @@
 import React, { useState } from "react";
-import {useNavigate} from 'react-router-dom'
+import  {useNavigate} from 'react-router-dom'
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
-export default function SignupPage() {
+export default function LoginPage({setLoginStatus}) {
     const navigate = useNavigate();
-    const [message, setMessage] = useState("")
+    const [accessToken, setToken] = useState("")
     const [user, setUser] = useState({
         email: "",
-        password: "",
-        username: "",
+        password: ""
     });
 
-    const onSignup = async () => {
+    const onLogin = async () => {
+        
         const myHeader = new Headers()
         myHeader.append("Content-Type","application/json")
         const raw = JSON.stringify(user)
@@ -26,55 +24,47 @@ export default function SignupPage() {
             redirect: "follow"
         } 
         try{
-            const response = await fetch(`http://localhost:3002/api/users/signup`,requestOptions)
+            const response = await fetch(`http://localhost:3002/api/users/login`,requestOptions)
             console.log("ye hai status",response.status==200)
             const result = await response.json();
-            setMessage(result.message)
+            console.log(result)
+            
             if (response.status == 200){
-                console.log("redirected")
-                toast("Signup Successful")
-                setTimeout(()=>{
-                    navigate('/login')
-                },2000)
+                setToken(result.accessToken)
+                localStorage.setItem("accessToken", result.accessToken);
+                toast(`${result.message}`)
+                setTimeout(() => {
+                    setLoginStatus(true)
+                    navigate('/'); 
+                }, 2000);
                 
-            }else{
-                toast(`result.message`)
-                console.log("not redirected")
+                
+            }else {
+                toast.error(`${result.message}`);
             }
         
 
         }catch (error){
             console.log(error)
+            toast.error("Login Failed");
         }
         
     };
 
     return (
         <div className="h-screen flex">
-        <div className="flex flex-col items-start w-1/3 m-auto justify-center gap-9 bg-[#F5F5F5] px-6 rounded md py-10">
+        <div className="flex flex-col items-start w-1/3 m-auto justify-center gap-9 bg-[#F5F5F5] px-6 rounded-md py-10">
             <ToastContainer/>
             <div className="flex flex-col gap-7">
-                <p className=" text-4xl font-semibold text-[#0D062D]">Create an account ✨</p>
+                <p className=" text-4xl font-semibold text-[#0D062D]">Welcome Back  👋</p>
                 <div className="description">
-                    <p className="text-[#787486] text-xl font-normal leading-8">Every project is a journey. Start yours</p>
-                    <p className="text-[#787486] text-xl font-normal leading-8">with a new account!</p>
+                    <p className="text-[#787486] text-xl font-normal leading-8">Today is a new day. It's your day. You shape it.</p>
+                    <p className="text-[#787486] text-xl font-normal leading-8">Sign in to start managing your projects.</p>
                 </div>
                 
             </div>
 
             <div className="middle flex flex-col w-full gap-6">
-                <div className="flex flex-col items-start gap-2">
-                    <label className="text-lg font-normal" htmlFor="email">Username</label>
-                    <input
-                        className="p-2 border-2 rounded-md border-gray-300 w-full"
-                        type="email"
-                        id="username"
-                        value={user.username}
-                        placeholder="Username"
-                        onChange={(e) => setUser({ ...user, username: e.target.value })}
-                    />
-                </div>
-
                 <div className="flex flex-col items-start gap-2">
                     <label className="text-lg font-normal" htmlFor="email">Email</label>
                     <input
@@ -100,21 +90,21 @@ export default function SignupPage() {
                 </div>
 
                 <div className="flex flex-col items-end">
-                    <p className="text-[#313957] text-lg font-normal w-full">Already have an account?<span> </span> 
-                        <Link to="/login">
-                            <span className="text-[#1E4AE9] underline cursor-pointer">Login</span>
-                        </Link>
-                    </p>  
+                    <p className="text-[#1E4AE9] text-lg font-normal cursor-pointer">Forgot Password?</p>
                 </div>
 
-                <div className="button w-full">
-                    <button className="flex py-4 justify-center items-center border bg-[#162D3A] rounded-xl w-full text-center text-[#FFF] text-xl font-medium" onClick={onSignup}>Sign up</button>   
+                <div className="button w-full text-center flex flex-col gap-6">
+                    <button className="flex py-4 justify-center items-center border bg-[#162D3A] rounded-xl w-full text-center text-[#FFF] text-xl font-medium" onClick={onLogin}>Sign in</button> 
+                    
+                        <p className="text-[#313957] text-lg font-normal w-full">Don't have an account?<span> </span> 
+                            <Link to="/signup">
+                                <span className="text-[#1E4AE9] underline cursor-pointer">Signup</span>
+                            </Link>
+                        </p>  
+                    
                 </div>
                 
             </div>
-
-
-            
         </div>
         </div>
     );
