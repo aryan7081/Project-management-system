@@ -38,9 +38,9 @@ exports.deleteTask = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
     const { id } = req.params
-    const {title, description} = req.body
+    const {title, description, isCompleted, inProgress} = req.body
 
-    if (!id || (!title && !description)) return res.status(400).send({error: "Task id and atleast one field is required."})
+    // if (!id || (!title || !description || !isCompleted || !inProgress)) return res.status(400).send({error: "Task id and atleast one field is required."})
 
     try{
         const existingTask = await prisma.task.findUnique({where: {id: parseInt(id)}})
@@ -51,9 +51,12 @@ exports.updateTask = async (req, res) => {
             },
             data:{
                 title: title || existingTask.title,
-                description: description || existingTask.description
+                description: description || existingTask.description,
+                isCompleted:isCompleted || existingTask.isCompleted,
+                inProgress:inProgress || existingTask.inProgress
             }
         })
+        console.log('updated',isCompleted)
         res.status(200).send({message: `Task with id ${id} updated successfully`, updatedTask})
 
     }catch (error){
