@@ -40,7 +40,7 @@ const SideNavbar = ({project, setProject, fetchTasks, projects, setProjects, cre
         };
 
         try {
-            const response = await fetch(`http://localhost:3002/api/projects`, requestOptions);
+            const response = await fetch(`https://project-management-system-dig0.onrender.com/api/projects`, requestOptions);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -69,7 +69,7 @@ const SideNavbar = ({project, setProject, fetchTasks, projects, setProjects, cre
         };
 
         try {
-            const response = await fetch(`http://localhost:3002/api/projects/delete/${projectId}`, requestOptions);
+            const response = await fetch(`https://project-management-system-dig0.onrender.com/api/projects/delete/${projectId}`, requestOptions);
             console.log("eleted",response)
             if (!response.ok) {
                 throw new Error('Failed to delete project');
@@ -98,7 +98,7 @@ const SideNavbar = ({project, setProject, fetchTasks, projects, setProjects, cre
         };
 
         try {
-            const response = await fetch(`http://localhost:3002/api/projects/${projectId}`, requestOptions);
+            const response = await fetch(`https://project-management-system-dig0.onrender.com/api/projects/${projectId}`, requestOptions);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

@@ -16,7 +16,7 @@ const Card = ({title, description, taskId, setTasks, fetchTasks, projectId, upda
         };
 
         try {
-            const response = await fetch(`http://localhost:3002/api/task/delete/${taskId}`, requestOptions);
+            const response = await fetch(`https://project-management-system-dig0.onrender.com/api/task/delete/${taskId}`, requestOptions);
             console.log(response)
             if (!response.ok) {
                 throw new Error('Failed to delete project');
