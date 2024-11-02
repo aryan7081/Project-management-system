@@ -24,7 +24,7 @@ export default function LoginPage({setLoginStatus}) {
             redirect: "follow"
         } 
         try{
-            const response = await fetch(`http://localhost:3002/api/users/login`,requestOptions)
+            const response = await fetch(`https://project-management-system-dig0.onrender.com/api/users/login`,requestOptions)
             console.log("ye hai status",response.status==200)
             const result = await response.json();
             console.log(result)

@@ -33,7 +33,7 @@ export default function CreateTaskModal({closeModal, setModalVisible, fetchProje
 
 
         try{
-            const response = await fetch(`http://localhost:3002/api/task/create`, requestOptions)
+            const response = await fetch(`https://project-management-system-dig0.onrender.com/api/task/create`, requestOptions)
             const result = await response.json()
             console.log(result)
             if (response.status == 201){

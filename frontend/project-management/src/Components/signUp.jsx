@@ -26,7 +26,7 @@ export default function SignupPage() {
             redirect: "follow"
         } 
         try{
-            const response = await fetch(`http://localhost:3002/api/users/signup`,requestOptions)
+            const response = await fetch(`https://project-management-system-dig0.onrender.com/api/users/signup`,requestOptions)
             console.log("ye hai status",response.status==200)
             const result = await response.json();
             setMessage(result.message)

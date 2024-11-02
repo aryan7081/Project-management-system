@@ -39,7 +39,7 @@ const AppRoutes = () => {
             redirect: 'follow'
         }
         try{
-            const response = await fetch(`http://localhost:3002/api/task/project/${projectId}`,requestOptions)
+            const response = await fetch(`https://project-management-system-dig0.onrender.com/api/task/project/${projectId}`,requestOptions)
             const result = await response.json()
             console.log("ye res",response)
             console.log("ye ayaa result",result)
@@ -81,7 +81,7 @@ const AppRoutes = () => {
 
 
       try{
-          const response = await fetch(`http://localhost:3002/api/projects/create`, requestOptions)
+          const response = await fetch(`https://project-management-system-dig0.onrender.com/api/projects/create`, requestOptions)
           const result = await response.json()
           console.log(result)
           if (response.status == 201){

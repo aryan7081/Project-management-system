@@ -35,7 +35,7 @@ const ProjectDisplay = ({project, tasks, fetchTasks, setTasks}) => {
         }
         try{
             console.log("ye ja rha hai id",taskId)
-            const response = await fetch(`http://localhost:3002/api/task/update/${taskId}`,requestOptions)
+            const response = await fetch(`https://project-management-system-dig0.onrender.com/api/task/update/${taskId}`,requestOptions)
             const result  = await response.json()
             console.log(result)
 
